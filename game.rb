@@ -17,7 +17,7 @@ class Game < Gosu::Window
     @starShip.warp(640,512)
     @meteorites = Array.new
 
-
+    @font = Gosu::Font.new(24)
     @background_img = Gosu::Image.new("img/background.png", :tileable => true)
   end
 
@@ -64,6 +64,8 @@ class Game < Gosu::Window
   end
 
   def draw
+    @font.draw_text("Score: #{@score}",20,20,3,1.0,1.0,Gosu::Color::YELLOW)
+    @font.draw_text("HP: #{@hp}",1200, 20,3,1.0,1.0,Gosu::Color::RED)
     @starShip.draw
     @background_img.draw(0,0,ZOrder::BACKGROUND)
     @meteorites.each { |meteorite| meteorite.draw }

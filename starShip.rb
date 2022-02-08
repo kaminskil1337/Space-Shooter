@@ -54,8 +54,8 @@ class StarShip
 
   def shootMove
     if @trigger == true
-      @bulletvelx = Gosu.offset_x(@bulletangle, 20)
-      @bulletvely = Gosu.offset_y(@bulletangle, 20)
+      @bulletvelx = Gosu.offset_x(@bulletangle, 40)
+      @bulletvely = Gosu.offset_y(@bulletangle, 40)
       @bulletx += @bulletvelx
       @bullety += @bulletvely
       if @bulletx < -10 or @bulletx > 1300 or @bullety < -10 or @bullety > 1050
