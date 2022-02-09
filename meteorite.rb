@@ -22,10 +22,10 @@ class Meteorite
     @meteorite_img.draw_rot(@x, @y, 1, @angle)
   end
 
-  def move(starship_x, starship_y)
+  def move(starship_x, starship_y, score)
     @angle = Gosu.angle(@x, @y, starship_x, starship_y)
-    @vel_x = Gosu.offset_x(@angle, 1)
-    @vel_y = Gosu.offset_y(@angle, 1)
+    @vel_x = Gosu.offset_x(@angle, 1.0 + score.to_f / 20)
+    @vel_y = Gosu.offset_y(@angle, 1.0 + score.to_f / 20)
     @x += @vel_x
     @y += @vel_y
   end
