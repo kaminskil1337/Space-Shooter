@@ -3,7 +3,8 @@
 class Meteorite
   attr_reader :x, :y
 
-  def initialize
+  def initialize(game)
+    @game = game
     @meteorite_img = Gosu::Image.new('img/meteorite.png')
     create
   end
@@ -18,8 +19,8 @@ class Meteorite
     @vel_x = @vel_y = 0.0
   end
 
-  def draw
-    @meteorite_img.draw_rot(@x, @y, 1, @angle)
+  def restart
+    create
   end
 
   def move(starship_x, starship_y, score)
@@ -34,7 +35,16 @@ class Meteorite
     if ((@x - starship_x).abs < 30) && ((@y - starship_y).abs < 30)
       create
       create while ((@x - starship_x).abs < 150) && ((@y - starship_y).abs < 150)
-      true
+      @game.take_damage
     end
+  end
+
+  def update
+    move(@game.starship.x, @game.starship.y, @game.score)
+    check_if_hit(@game.starship.x, @game.starship.y)
+  end
+
+  def draw
+    @meteorite_img.draw_rot(@x, @y, 3, @angle)
   end
 end

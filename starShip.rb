@@ -2,31 +2,27 @@
 
 require 'gosu'
 
-class StarShip
-  attr_reader :x, :y, :trigger
+class Starship
+  attr_reader :x, :y, :angle
 
-  def initialize
-    @x = 0
-    @y = 0
+  def initialize(game)
+    @game = game
+    create
+  end
+
+  def create
+    @x = 640
+    @y = 512
+    @previous_shot_second = 0
     @vel_x = @vel_y = @angle = 0.0
     @spaceship_img = Gosu::Image.new('img/spaceship.png')
     @bullet_img = Gosu::Image.new('img/bullet.png')
-
-    @trigger = false
-    @bulletx = -10
-    @bullety = -10
-    @bulletvelx = @bulletvely = 0.0
-    @bulletangle = 0
   end
 
   def restart
-    warp(640, 512)
+    @x = 640
+    @y = 512
     @vel_x = @vel_y = @angle = 0.0
-  end
-
-  def warp(x, y)
-    @x = x
-    @y = y
   end
 
   def turn_left
@@ -53,29 +49,22 @@ class StarShip
   end
 
   def shoot
-    @bulletx = @x
-    @bullety = @y
-    @bulletangle = @angle
-    @trigger = true
-    shot_move
+    @game.objects.push(Bullet.new(@game))
   end
 
-  def shot_move
-    if @trigger == true
-      @bulletvelx = Gosu.offset_x(@bulletangle, 40)
-      @bulletvely = Gosu.offset_y(@bulletangle, 40)
-      @bulletx += @bulletvelx
-      @bullety += @bulletvely
-      @trigger = false if (@bulletx < -10) || (@bulletx > 1300) || (@bullety < -10) || (@bullety > 1050)
+  def update
+    turn_left if Gosu.button_down? Gosu::KB_LEFT
+    turn_right if Gosu.button_down? Gosu::KB_RIGHT
+    accelerate if Gosu.button_down? Gosu::KB_UP
+    if Gosu.button_down?(Gosu::KB_SPACE)
+      @shot_second = @game.seconds
+      if @shot_second - @previous_shot_second > 0.2
+        shoot
+        @previous_shot_second = @shot_second
+      end
     end
-  end
 
-  def bullet_check(meteorite_x, meteorite_y)
-    return true if ((@bulletx - meteorite_x).abs < 30) && ((@bullety - meteorite_y).abs < 30)
-  end
-
-  def bullet_draw
-    @bullet_img.draw_rot(@bulletx, @bullety, 1, @bulletangle)
+    move
   end
 
   def draw

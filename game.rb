@@ -3,74 +3,92 @@
 require 'gosu'
 require_relative 'starship'
 require_relative 'meteorite'
+require_relative 'bullet'
 
 module ZOrder
   BACKGROUND, STARSHIP, METEORITE, UI = *0..3
 end
 
+module GameState
+  START, PLAY, LOST = *0..2
+end
+
 class Game < Gosu::Window
+  attr_reader :objects, :starship, :score, :seconds
+
   def initialize
     super 1280, 1024
     self.caption = 'Space Shooter'
 
     @hp = 5
-    @score = 0
-    @starship = StarShip.new
-    @starship.warp(640, 512)
-    @meteorites = []
-    @game_state = 0 # 0 - game start, 1 - game, 2 - lost
+    @meteorites = @score = @seconds = 0
+    @starship = Starship.new(self)
+    @objects = []
+    @objects.push(@starship)
+    @game_state = GameState::START
     @font = Gosu::Font.new(36)
     @background_img = Gosu::Image.new('img/background.png', tileable: true)
+    @banner_img = Gosu::Image.new('img/banner.png')
+    @start_img = Gosu::Image.new('img/start.png')
+  end
+
+  def take_damage
+    @hp -= 1
+    @game_state = GameState::LOST if @hp <= 0
+  end
+
+  def add_score
+    @score += 1
+  end
+
+  def restart
+    @score = 0
+    @hp = 5
+    @objects.each(&:restart)
+    @game_state = GameState::PLAY
   end
 
   def update
-    if @game_state == 1
-      @starship.turn_left if Gosu.button_down? Gosu::KB_LEFT
-      @starship.turn_right if Gosu.button_down? Gosu::KB_RIGHT
-      @starship.accelerate if Gosu.button_down? Gosu::KB_UP
-      @starship.shoot if Gosu.button_down?(Gosu::KB_SPACE) && (@starship.trigger == false)
+    if @game_state == GameState::PLAY
+      @objects.each(&:update)
 
-      @starship.move
-      @starship.shot_move
-      @meteorites.each { |meteorite| meteorite.move(@starship.x, @starship.y, @score) }
-
-      @meteorites.push(Meteorite.new) if (rand(100) < 1) && (@meteorites.size < 5)
-
-      @meteorites.each do |meteorite|
-        if meteorite.check_if_hit(@starship.x, @starship.y) == true
-          @hp -= 1
-          @game_state = 2 if @hp <= 0
-        end
-        next unless @starship.bullet_check(meteorite.x, meteorite.y) == true
-
-        meteorite.create
-        @score += 1
+      if (rand(100) < 1) && (@meteorites < 5)
+        @objects.push(Meteorite.new(self))
+        @meteorites += 1
       end
-    elsif Gosu.button_down? Gosu::KB_SPACE
-      @meteorites.each(&:create)
-      @starship.restart
-      @score = 0
-      @hp = 5
-      @game_state = 1
+
+    elsif Gosu.button_down? Gosu::KB_RETURN
+      restart
     end
+    @seconds += 1.0 / 60
   end
 
   def draw
     @background_img.draw(0, 0, ZOrder::BACKGROUND)
     case @game_state
-    when 1
-      @font.draw_text("Score: #{@score}", 20, 20, ZOrder::UI, 1.0, 1.0, Gosu::Color::YELLOW)
-      @font.draw_text("HP: #{@hp}", 1160, 20, ZOrder::UI, 1.0, 1.0, Gosu::Color::RED)
-      @starship.draw
-      @meteorites.each(&:draw)
-      @starship.bullet_draw
-    when 2
-      @font.draw_text('YOU LOST, PRESS SPACEBAR TO RESTART', 360, 500, ZOrder::UI, 1.0, 1.0, Gosu::Color::RED)
-      @font.draw_text("YOUR SCORE: #{@score}", 500, 560, ZOrder::UI, 1.0, 1.0, Gosu::Color::YELLOW)
+    when GameState::PLAY
+      draw_play
+    when GameState::LOST
+      draw_lost
     else
-      @font.draw_text('PRESS SPACEBAR TO START', 410, 500, ZOrder::UI, 1.0, 1.0, Gosu::Color::RED)
-      @font.draw_text('USE < ^ > TO MOVE, AND SPACEBAR TO SHOOT', 290, 560, ZOrder::UI, 1.0, 1.0, Gosu::Color::YELLOW)
+      draw_start
     end
+  end
+
+  def draw_play
+    @objects.each(&:draw)
+    @font.draw_text("Score: #{@score}", 20, 20, ZOrder::UI, 1.0, 1.0, Gosu::Color::YELLOW)
+    @font.draw_text("HP: #{@hp}", 1160, 20, ZOrder::UI, 1.0, 1.0, Gosu::Color::RED)
+  end
+
+  def draw_lost
+    @font.draw_text('YOU LOST, PRESS ENTER TO RESTART', 360, 500, ZOrder::UI, 1.0, 1.0, Gosu::Color::RED)
+    @font.draw_text("YOUR SCORE: #{@score}", 500, 560, ZOrder::UI, 1.0, 1.0, Gosu::Color::YELLOW)
+  end
+
+  def draw_start
+    @banner_img.draw(320, 180, ZOrder::UI)
+    @start_img.draw(320, 450, ZOrder::UI)
   end
 
   def button_down(id)
