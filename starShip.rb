@@ -63,7 +63,6 @@ class Starship
         @previous_shot_second = @shot_second
       end
     end
-
     move
   end
 

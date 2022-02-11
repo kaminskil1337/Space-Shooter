@@ -13,6 +13,12 @@ gem install gosu
 ruby ./game.rb
 ```
 
+## To Do List
+
+- [ ] Online LeaderBoard
+
+
+
 ## Technology used
 
 [Gosu](https://www.libgosu.org/) library
