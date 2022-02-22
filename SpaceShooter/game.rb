@@ -38,10 +38,10 @@ class Game < Gosu::Window
   end
 
   def initialize_assets
-    @font_s = Gosu::Font.new(32, name: 'SpaceShooter/fonts/ice_pixel-7.ttf')
-    @font_m = Gosu::Font.new(64, name: 'SpaceShooter/fonts/ice_pixel-7.ttf')
-    @font_l = Gosu::Font.new(100, name: 'SpaceShooter/fonts/ice_pixel-7.ttf')
-    @background_img = Gosu::Image.new('SpaceShooter/img/background.png', tileable: true)
+    @font_s = Gosu::Font.new(32, name: 'fonts/ice_pixel-7.ttf')
+    @font_m = Gosu::Font.new(64, name: 'fonts/ice_pixel-7.ttf')
+    @font_l = Gosu::Font.new(100, name: 'fonts/ice_pixel-7.ttf')
+    @background_img = Gosu::Image.new('img/background.png', tileable: true)
   end
 
   def take_damage

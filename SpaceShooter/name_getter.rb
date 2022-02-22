@@ -15,7 +15,7 @@ class NameGetter < Gosu::Window
     @indicator = 0
     @seconds = @second_pressed = 0
     @output_name = ''
-    @font_m = Gosu::Font.new(64, name: 'SpaceShooter/fonts/ice_pixel-7.ttf')
+    @font_m = Gosu::Font.new(64, name: 'fonts/ice_pixel-7.ttf')
   end
 
   def indicator_left
