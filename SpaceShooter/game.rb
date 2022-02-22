@@ -24,13 +24,14 @@ class Game < Gosu::Window
     initialize_assets
     set_start_parameters
     @starship = Starship.new(self)
-    @score_manager = ScoreManager.new
     @name_getter = NameGetter.new
     @objects.push(@starship)
     @game_state = GameState::START
   end
 
   def set_start_parameters
+    @score_manager = ScoreManager.new
+    initialize_high_score
     @objects = []
     @hp = 5
     @meteorites = @score = @seconds = 0
@@ -52,6 +53,13 @@ class Game < Gosu::Window
     @score += 1
   end
 
+  def initialize_high_score
+    @high_score = []
+    (0..2).each do |a|
+      @high_score[a] = @score_manager.get_high_score(a)
+    end
+  end
+
   def restart
     @player_name = @name_getter.output_name
     @score_manager.set_score(@score, @player_name)
@@ -63,15 +71,17 @@ class Game < Gosu::Window
   end
 
   def update
-    if @game_state == GameState::PLAY
+    case @game_state
+    when GameState::PLAY
       @objects.each(&:update)
-
       if (rand(100) < 1) && (@meteorites < 5)
         @objects.push(Meteorite.new(self))
         @meteorites += 1
       end
-
-    elsif @name_getter.update
+    when GameState::START
+      @game_state = GameState::PLAY if Gosu.button_down? Gosu::KB_RETURN
+    else
+      @name_getter.update
       restart if Gosu.button_down? Gosu::KB_RETURN
     end
     @seconds += 1.0 / 60
@@ -98,7 +108,7 @@ class Game < Gosu::Window
   def draw_high_score
     @font_m.draw_text('LEADERBOARD: ', 490, 620, 1, 1.0, 1.0, Gosu::Color::RED)
     (0..2).each do |a|
-      @font_m.draw_text("#{a + 1}. #{@score_manager.get_high_score(a)}", 465, 720 + (a * 60), 1, 1.0, 1.0,
+      @font_m.draw_text("#{a + 1}. #{@high_score[a]}", 465, 720 + (a * 60), 1, 1.0, 1.0,
                         Gosu::Color::RED)
     end
   end
