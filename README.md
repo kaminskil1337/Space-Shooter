@@ -15,6 +15,7 @@ Leaderboard is a web application that is used to store, display and return high 
 Open cmd in SpaceShooter folder:
 ```
 gem install gosu
+gem install httparty
 game.rb
 ```
 
