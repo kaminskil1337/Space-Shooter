@@ -11,11 +11,11 @@ class ScoreManager
   end
 
   def send_score
-    HTTParty.post('http://localhost:9292/star_shooter_leaderboard', body: { name: @name, score: @score }.to_json)
+    HTTParty.post('https://space-shooter-leaderboard.herokuapp.com/', body: { name: @name, score: @score }.to_json)
   end
 
   def get_high_score(a)
-    response = HTTParty.get('http://localhost:9292/star_shooter_leaderboard_response')
+    response = HTTParty.get('https://space-shooter-leaderboard.herokuapp.com/response')
     response_json = JSON.parse(response)[a]
     @high_score_name = response_json['name']
     @high_score_score = response_json['score']
