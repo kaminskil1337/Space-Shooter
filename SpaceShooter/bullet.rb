@@ -5,7 +5,7 @@ class Bullet
     @game = game
     @x = @y = 100
     @vel_x = @vel_y = @angle = 0.0
-    @bullet_img = Gosu::Image.new('img/bullet.png')
+    @bullet_img = Gosu::Image.new('SpaceShooter/img/bullet.png')
     shoot
   end
 

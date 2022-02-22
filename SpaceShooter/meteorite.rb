@@ -5,7 +5,7 @@ class Meteorite
 
   def initialize(game)
     @game = game
-    @meteorite_img = Gosu::Image.new('img/meteorite.png')
+    @meteorite_img = Gosu::Image.new('SpaceShooter/img/meteorite.png')
     create
   end
 

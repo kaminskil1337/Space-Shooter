@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'gosu'
-
 class Starship
   attr_reader :x, :y, :angle
 
@@ -15,8 +13,8 @@ class Starship
     @y = 512
     @previous_shot_second = 0
     @vel_x = @vel_y = @angle = 0.0
-    @spaceship_img = Gosu::Image.new('img/spaceship.png')
-    @bullet_img = Gosu::Image.new('img/bullet.png')
+    @spaceship_img = Gosu::Image.new('SpaceShooter/img/spaceship.png')
+    @bullet_img = Gosu::Image.new('SpaceShooter/img/bullet.png')
   end
 
   def restart
