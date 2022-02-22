@@ -41,7 +41,7 @@ class Game < Gosu::Window
     @font_s = Gosu::Font.new(32, name: 'fonts/ice_pixel-7.ttf')
     @font_m = Gosu::Font.new(64, name: 'fonts/ice_pixel-7.ttf')
     @font_l = Gosu::Font.new(100, name: 'fonts/ice_pixel-7.ttf')
-    @background_img = Gosu::Image.new('img/background.png', tileable: true)
+    @background_img = Gosu::Image.new('./img/background.png')
   end
 
   def take_damage
