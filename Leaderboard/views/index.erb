@@ -4,7 +4,7 @@
 
 </head>
 <body>
-<h1>Space Shooter LeaderBoard</h1>
+<h1>Space Shooter Leaderboard</h1>
 <% @items.each do |item| %>
   <li class="list-group-item"><%= item["name"] %><%= " - " %><%= item["score"].to_s %><%= " points" %></li>
 <% end %>
