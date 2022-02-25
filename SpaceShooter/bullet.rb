@@ -41,8 +41,8 @@ class Bullet
   end
 
   def move
-    @vel_x = Gosu.offset_x(@angle, 40)
-    @vel_y = Gosu.offset_y(@angle, 40)
+    @vel_x = Gosu.offset_x(@angle, 20)
+    @vel_y = Gosu.offset_y(@angle, 20)
     @x += @vel_x
     @y += @vel_y
   end

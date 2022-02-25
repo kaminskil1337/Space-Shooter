@@ -31,7 +31,7 @@ class Game < Gosu::Window
 
   def set_start_parameters
     @score_manager = ScoreManager.new
-    initialize_high_score
+    # initialize_high_score
     @objects = []
     @hp = 5
     @meteorites = @score = @seconds = 0
@@ -53,16 +53,9 @@ class Game < Gosu::Window
     @score += 1
   end
 
-  def initialize_high_score
-    @high_score = []
-    (0..2).each do |a|
-      @high_score[a] = @score_manager.get_high_score(a)
-    end
-  end
-
   def restart
     @player_name = @name_getter.output_name
-    @score_manager.set_score(@score, @player_name)
+    @score_manager.send_score(@score, @player_name)
     @player_name = ''
     @score = 0
     @hp = 5
@@ -108,7 +101,7 @@ class Game < Gosu::Window
   def draw_high_score
     @font_m.draw_text('LEADERBOARD: ', 490, 620, 1, 1.0, 1.0, Gosu::Color::RED)
     (0..2).each do |a|
-      @font_m.draw_text("#{a + 1}. #{@high_score[a]}", 465, 720 + (a * 60), 1, 1.0, 1.0,
+      @font_m.draw_text("#{a + 1}. #{@score_manager.high_scores[a]['name']} - #{@score_manager.high_scores[a]['score']}", 465, 720 + (a * 60), 1, 1.0, 1.0,
                         Gosu::Color::RED)
     end
   end
