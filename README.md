@@ -8,6 +8,18 @@ Space Shooter is simple Ruby game that uses Gosu library. Your mission is to avo
 
 Leaderboard is a web application that is used to store, display and return high scores to game. You can access the leaderboard by this link: [Space Shooter Leaderboard](https://space-shooter-leaderboard.herokuapp.com/). Try to get the highest score 😃.
 
+### Leaderboard in game
+
+![Leaderboard in game](/README/menu_leaderboard.png)
+
+### Web app leaderboard
+
+![Web app leaderboard](/README/web_leaderboard.png)
+
+### Uploading high score
+
+![Uploading high score](/README/uploading_high_score.gif)
+
 ## How to start
 
 [Install Ruby](https://rubyinstaller.org/downloads/)
@@ -21,7 +33,7 @@ game.rb
 
 ## To Do List
 
-- [x] Online LeaderBoard
+- [x] Online Leaderboard
 - [ ] Add features to game (power ups, repair kit, etc.)
 
 
