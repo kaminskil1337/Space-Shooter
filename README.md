@@ -1,6 +1,6 @@
 # Space Shooter
 
-![Space Shooter](/README/README.gif)
+![Space Shooter](/README/READMEmd.gif)
 
 ## General info
 
