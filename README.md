@@ -16,7 +16,7 @@ Leaderboard is a web application that is used to store, display and return high 
 
 ### Uploading new high score
 
-![Uploading high score](/README/uploading_high_socre.gif)
+![Uploading high score](/README/uploading_high_score.gif)
 
 
 ## How to start
