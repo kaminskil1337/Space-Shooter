@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'sinatra/reloader'
-require 'json'
-
 class Leaderboard < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
