@@ -6,7 +6,7 @@
 
 Space Shooter is simple Ruby game that uses Gosu library. Your mission is to avoid and destroy meteorites, which follow you. With every destroyed meteorite you gain point, what makes meteorites fly faster. 
 
-Leaderboard is a web application that is used to store, display and return high scores to game. You can access the leaderboard by this link: [Space Shooter Leaderboard](https://space-shooter-leaderboard.herokuapp.com/). Try to get the highest score 😃.
+Leaderboard [(How to start)](https://github.com/kaminskil1337/Space-Shooter/tree/main/Leaderboard) is a web application that is used to store, display and return high scores to game. You can access the leaderboard by this link: [Space Shooter Leaderboard](https://space-shooter-leaderboard.herokuapp.com/). Try to get the highest score 😃.
 
 ### In game leaderboard
 
