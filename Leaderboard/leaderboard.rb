@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'sinatra/reloader'
+
 class Leaderboard < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
